@@ -44,7 +44,7 @@ export default function DashboardPage(props) {
           {chatrooms.map((chatroom) => (
             <div key={chatroom._id} className="chatroom">
               <div>{chatroom.name}</div>
-              <Link to={"/chatroom/" + chatroom._id}>
+              <Link to={"/chatroom/" + "610e88d9deb681298804dcee"}>
                 <div className="join">Join</div>
               </Link>
             </div>

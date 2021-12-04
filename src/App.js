@@ -13,10 +13,11 @@ function App() {
 
   const setupSocket = () => {
     const token = localStorage.getItem("CC_Token");
-    if (token && !socket) {
-      const newSocket = io("http://localhost:8000", {
+    if (!socket) {
+      const newSocket = io("http://localhost:5005", {
         query: {
-          token: localStorage.getItem("CC_Token"),
+          // token: localStorage.getItem("CC_Token"),
+          userId: "6113d0fe704e961da474cae7",
         },
       });
       newSocket.on("disconnect", () => {

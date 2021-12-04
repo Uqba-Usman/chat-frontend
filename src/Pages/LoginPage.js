@@ -12,7 +12,7 @@ function LoginPage(props) {
     const password = passwordRef.current.value;
 
     axios
-      .post("http://localhost:8000/user/login", {
+      .post("http://localhost:5005/api/user/login", {
         email,
         password,
       })
@@ -20,7 +20,7 @@ function LoginPage(props) {
         console.log("Res: ", response);
         makeToast("success", response.data.message);
         localStorage.setItem("CC_Token", response.data.token);
-        props.history.push("/dashboard");
+        props.history.push("/chatroom/610e88d9deb681298804dcee");
         props.setupSocket();
       })
       .catch((err) => {

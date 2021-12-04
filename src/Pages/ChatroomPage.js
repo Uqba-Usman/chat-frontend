@@ -2,11 +2,13 @@ import React from "react";
 import { withRouter } from "react-router";
 
 function ChatroomPage({ match, socket }) {
-  const chatroomId = match.params.id;
+  // const chatroomId = match.params.id;
+  const chatroomId = "610e88d9deb681298804dcee";
   const [messages, setMessages] = React.useState([]);
   const messageRef = React.useRef();
 
   const sendMessage = () => {
+    console.log("SOCKET: ", socket);
     if (socket) {
       socket.emit("chatroomMessage", {
         chatroomId,
@@ -15,12 +17,26 @@ function ChatroomPage({ match, socket }) {
 
       messageRef.current.value = "";
     }
+    console.log("SOCKET 20: ", socket);
+    if (socket) {
+      console.log("SOCKET 22: ", socket);
+    }
   };
 
+  socket.on("newMessage", (message) => {
+    console.log("Message", message);
+
+    const newSetmessage = [...messages, message];
+    setMessages(newSetmessage);
+    console.log("Messages", messages);
+  });
+
   React.useEffect(() => {
+    console.log("SOCKET: ", socket);
     if (socket) {
       socket.on("newMessage", (message) => {
         console.log("Message", message);
+
         const newSetmessage = [...messages, message];
         setMessages(newSetmessage);
         console.log("Messages", messages);
@@ -29,19 +45,22 @@ function ChatroomPage({ match, socket }) {
   }, [messages]);
 
   React.useEffect(() => {
+    console.log("IN", socket);
     if (socket) {
+      console.log("INSide");
       socket.emit("joinRoom", {
-        chatroomId,
+        chatroomId: "",
       });
-      
-    return () => {
-      //Component Unmount
-      if (socket) {
-        socket.emit("leaveRoom", {
-          chatroomId,
-        });
-      }
-    };
+
+      return () => {
+        //Component Unmount
+        if (socket) {
+          socket.emit("leaveRoom", {
+            chatroomId,
+          });
+        }
+      };
+    }
   }, []);
 
   return (
